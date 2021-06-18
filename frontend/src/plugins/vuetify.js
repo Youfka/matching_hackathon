@@ -1,17 +1,12 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify/lib'
 
-const locales = {
-  en: require('vuetify/es5/locale/en'),
-  fr: require('vuetify/es5/locale/fr')
-}
 
 const current = navigator.language.split('-')[0]
 
 Vue.use(Vuetify)
 
 export default new Vuetify({
-  locales,
   current,
   icons: {
     iconfont: 'mdiSvg'

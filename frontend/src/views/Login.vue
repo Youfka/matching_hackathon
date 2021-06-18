@@ -7,13 +7,13 @@
           <v-col cols="12" sm="8" md="8" lg="4">
             <v-card outlined>
               <v-toolbar color="primary" flat dark>
-                <v-toolbar-title>{{ $t('login') }}</v-toolbar-title>
+                <v-toolbar-title>Авторизация</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
                 <v-form v-model="isFormValid">
                   <v-text-field
                     v-model="form.name"
-                    :label="$t('name')"
+                    label="Логин"
                     :rules="nameRules"
                     name="name"
                     prepend-icon="mdi-account"
@@ -22,7 +22,7 @@
                   />
                   <v-text-field
                     v-model="form.password"
-                    :label="$t('password')"
+                    label="Пароль"
                     :rules="passwordRules"
                     name="password"
                     prepend-icon="mdi-lock"
@@ -33,7 +33,7 @@
                     <v-text-field
                       v-show="isRegisterForm"
                       v-model="form.c_password"
-                      :label="$t('confirmPassword')"
+                      label="Подтвердить пароль"
                       :rules="c_passwordRules"
                       :required="isRegisterForm"
                       name="c_password"
@@ -46,18 +46,18 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn :disabled="!isFormValid" class="mb-2" color="primary" @click="login">
-                  {{ $t(isRegisterForm ? 'register' : 'login') }}
+                  {{ isRegisterForm ? 'Зарегистрироваться' : 'Войти' }}
                 </v-btn>
               </v-card-actions>
               <v-divider></v-divider>
               <v-card-actions>
                 <v-row>
                   <v-col class="d-flex justify-center align-center">
-                    <span class="mr-2">
-                      {{ $t(isRegisterForm ? 'alreadyAnAccount' : 'noAccount') }}
-                    </span>
+                    <!-- <span class="mr-2">
+                      {{ isRegisterForm ? 'alreadyAnAccount' : 'noAccount' }}
+                    </span> -->
                     <v-btn text @click="toggleForm">
-                      {{ $t(isRegisterForm ? 'login' : 'register') }}
+                      {{ isRegisterForm ? 'Войти' : 'Зарегистрироваться' }}
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -88,15 +88,15 @@ export default {
       isFormValid: false,
       isRegisterForm: false,
       nameRules: [
-        v => !!v || `${this.$t('name')} ${this.$t('isRequired')}`
+        v => !!v || 'логин обязателен'
       ],
       passwordRules: [
-        v => !!v || `${this.$t('password')} ${this.$t('isRequired')}`,
-        v => v.length >= 6 || this.$t('passwordLength', {length: 6}),
+        v => !!v || 'пароль обязателен',
+        v => v.length >= 6 || 'пароль должен быть длиннее ' +  6,
       ],
       c_passwordRules: [
-        v => !this.isRegisterForm || !!v || `${this.$t('password')} ${this.$t('isRequired')}`,
-        v => v == this.form.password || this.$t('passwordConfirm'),
+        v => !this.isRegisterForm || !!v || 'пароль обязателен',
+        v => v == this.form.password || 'пароль подтверждён',
       ]
     }
   },
