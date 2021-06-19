@@ -71,6 +71,13 @@
           </v-col>
         </v-row>
       </v-container>
+      <v-data-table
+        :headers="headers"
+        :items="candidates"
+        :items-per-page="5"
+        class="elevation-1"
+      ></v-data-table>
+
     </v-main>
   </div>
 </template>
@@ -99,7 +106,62 @@ export default {
       skills: ['JavaScript', 'Python', 'Java', 'C++', 'C#'],
       cities: ['Москва', 'Санкт-Петербург', 'Сызрань', 'Волгоград'],
       experienceItems: ['меньше года', 'от 1 до 3 лет', 'от 3 до 6 лет', 'больше 6 лет'],
-      
+      headers: [
+          {
+            text: 'ФИО',
+            align: 'start',
+            sortable: false,
+            value: 'name',
+          },
+          { text: 'Резюме', value: 'resume' },
+          { text: 'Город', value: 'city' },
+          { text: 'Опыт', value: 'experience' },
+          { text: 'Навыки', value: 'skills' },
+        ],
+        candidates: [
+          {
+            name: 'Петров Иван Иванович',
+            resume: 'Фронтенд разработчик',
+            city: 'Москва',
+            experience: '1-3 года',
+            skills: 'React, TypeScript',
+          },
+          {
+            name: 'Савинов Петр Алексеевич',
+            resume: 'Бэкенд разработчик',
+            city: 'Санкт-Петербург',
+            experience: 'меньше года',
+            skills: 'PHP, Laravel',
+          },
+          {
+            name: 'Патрушев Михаил Иванович',
+            resume: 'Фронтенд разработчик',
+            city: 'Москва',
+            experience: 'от 3 до 6 лет',
+            skills: 'Vue.js, JavaScript',
+          },
+          {
+            name: 'Королёва Зинаида Юрьевна',
+            resume: 'Java разработчик',
+            city: 'Москва',
+            experience: '1-3 года',
+            skills: 'Java',
+          },
+          {
+            name: 'Краснов Алексей Иванович',
+            resume: 'Бэкенд разработчик',
+            city: 'Сызрань',
+            experience: '1-3 года',
+            skills: 'Python',
+          },
+          {
+            name: 'Зелибоба Амир Геннадьевич',
+            resume: 'Фронтенд разработчик',
+            city: 'Волгоград',
+            experience: 'меньше года',
+            skills: 'Angular',
+          },
+        ]
     }
   },
   computed: {
