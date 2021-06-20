@@ -71,6 +71,14 @@
           </v-col>
         </v-row>
       </v-container>
+      {{candidates}}
+      <v-data-table
+        v-if="candidates.length"
+        :headers="headers"
+        :items="candidates"
+        :items-per-page="5"
+        class="elevation-1"
+      ></v-data-table>
     </v-main>
   </div>
 </template>
@@ -91,15 +99,25 @@ export default {
         v => !!v || 'Название вакансии обязательно'
       ],
       form: {
-        title: '',
-        selectedSkills: '',
-        city: '',
-        experience: ''
+        title: "",
+        selectedSkills: "",
+        city: "",
+        experience: ""
       },
       skills: ['JavaScript', 'Python', 'Java', 'C++', 'C#'],
       cities: ['Москва', 'Санкт-Петербург', 'Сызрань', 'Волгоград'],
       experienceItems: ['меньше года', 'от 1 до 3 лет', 'от 3 до 6 лет', 'больше 6 лет'],
-      
+      headers: [
+        {
+          text: 'Название резюме',
+          align: 'start',
+          sortable: false,
+          value: 'title',
+        },
+        { text: 'Опыт', value: 'experience' },
+        { text: 'Ссылка', value: 'url' },
+      ],
+      candidates: []
     }
   },
   computed: {
@@ -108,8 +126,43 @@ export default {
     ])
   },
   methods: {
-    search(){
-      console.log('kek');
+    async search(){
+      let serchRequest = {
+        title: this.form.title,
+        experience: this.form.experience
+      };
+    
+      await fetch('http://localhost:3000/search', {
+          method: 'POST',
+          headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(serchRequest),
+      }).then((response) => {
+        console.log(response);
+        this.getContent("../../../backend/resumes.json", function(text){
+          const data = JSON.parse(text);
+          this.candidates = data;
+          console.log(data);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    },
+    getContent(file, callback) {
+      console.log(file);
+      let rawFile = new XMLHttpRequest();
+      rawFile.overrideMimeType("application/json");
+      rawFile.open("GET", file, true);
+      rawFile.onreadystatechange = function() {
+          if (rawFile.readyState === 4 && rawFile.status == "200") {
+              callback(rawFile.responseText);
+          }
+      }
+      rawFile.send(null);
     }
   }
 }
